@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Category, Product, BusinessLunch, Order, Reservation, UserAddress, BanquetMenu
@@ -242,5 +244,8 @@ def check_new_orders(request):
         "recent_orders": recent_orders,
         "recent_reservations": recent_reservations,
         "pending_orders": pending_orders,
+def home_view(request):
+    """Main page view"""
+    return HttpResponse("Welcome to Dacha API Backend!")
         "play_sound": (recent_orders > 0 or recent_reservations > 0)
     })
