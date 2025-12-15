@@ -244,8 +244,10 @@ def check_new_orders(request):
         "recent_orders": recent_orders,
         "recent_reservations": recent_reservations,
         "pending_orders": pending_orders,
+        "play_sound": (recent_orders > 0 or recent_reservations > 0)
+    })
+
+
 def home_view(request):
     """Main page view"""
     return HttpResponse("Welcome to Dacha API Backend!")
-        "play_sound": (recent_orders > 0 or recent_reservations > 0)
-    })
