@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Дача | Доставка еды Снежинск</title>
+    <!-- Tailwind CSS (CDN for now, can be replaced with PostCSS later if configured) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#21201F',
+                            yellow: '#FCE000',
+                            gray: '#F5F4F2',
+                            green: '#2F5D48',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+        // Initialize Lucide icons after React mounts/updates if needed, 
+        // though typically React components handle their own icons.
+        // Keeping this just in case strictly static parts remain.
+    </script>
+</body>
+
+</html>

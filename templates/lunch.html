@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Бизнес-ланч | Дача Снежинск</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                black: '#21201F',
+                yellow: '#FCE000',
+                gray: '#F5F4F2',
+                green: '#2F5D48',
+              }
+            },
+            boxShadow: {
+              'card': '0 4px 24px rgba(0, 0, 0, 0.06)',
+              'float': '0 8px 30px rgba(0, 0, 0, 0.12)',
+              'glow': '0 0 40px rgba(252, 224, 0, 0.3)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body { background-color: #F5F4F2; color: #21201F; -webkit-font-smoothing: antialiased; }
+    </style>
+  </head>
+  <body class="font-sans antialiased">
+
+    <!-- Navbar (Simplified) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 h-[72px] flex items-center">
+      <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+           <span class="font-extrabold text-2xl tracking-tight text-brand-black">
+             Дача <span class="font-medium text-brand-black">для Друзей</span>
+           </span>
+        </a>
+        <a href="/" class="text-sm font-bold text-brand-green flex items-center gap-2 hover:opacity-70">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            На главную
+        </a>
+      </div>
+    </nav>
+    <div class="h-[72px]"></div>
+
+    <!-- Main Content -->
+    <main class="py-12 px-4">
+        <section class="max-w-3xl mx-auto">
+            
+            <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+                <!-- Header -->
+                <div class="bg-brand-black text-white p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                    <div>
+                        <div class="inline-block bg-brand-yellow text-brand-black text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
+                            Меню на сегодня
+                        </div>
+                        <h1 class="text-3xl md:text-4xl font-extrabold font-sans">Бизнес-ланч</h1>
+                        <p class="text-gray-400 mt-2 font-medium">12 декабря 2025</p>
+                    </div>
+                </div>
+
+                <!-- Menu Content -->
+                <div class="p-6 md:p-10 grid md:grid-cols-2 gap-8 md:gap-12 bg-white">
+                    
+                    <!-- Column 1 -->
+                    <div class="space-y-8">
+                        <!-- Salads -->
+                        <div>
+                            <h3 class="flex items-center gap-2 font-bold text-brand-green uppercase text-sm tracking-wider mb-4 border-b border-gray-100 pb-2">
+                                <i data-lucide="salad" class="w-5 h-5"></i> Салаты
+                            </h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-brand-yellow mt-1">●</span>
+                                    <span><strong class="text-brand-black">Цезарь</strong> (пекин. капуста, курица, помидор, сыр, сухарики, заправка)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-brand-yellow mt-1">●</span>
+                                    <span><strong class="text-brand-black">Овощной</strong> (помидоры, огурцы, перец болг.)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-brand-yellow mt-1">●</span>
+                                    <span><strong class="text-brand-black">Радость</strong> (сервелат, горох, огурец св., пекинская капуста, майонез)</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Soups -->
+                        <div>
+                            <h3 class="flex items-center gap-2 font-bold text-brand-green uppercase text-sm tracking-wider mb-4 border-b border-gray-100 pb-2">
+                                <i data-lucide="soup" class="w-5 h-5"></i> Супы
+                            </h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Шурпа</strong> (говядина)</span></li>
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Грибной</strong> с фрикадельками</span></li>
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Крем-суп</strong> беконовый</span></li>
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Солянка</strong> домашняя</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-8">
+                         <!-- Hot -->
+                         <div>
+                            <h3 class="flex items-center gap-2 font-bold text-brand-green uppercase text-sm tracking-wider mb-4 border-b border-gray-100 pb-2">
+                                <i data-lucide="utensils-crossed" class="w-5 h-5"></i> Горячее
+                            </h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Жаркое</strong></span></li>
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Бедро запечёное</strong></span></li>
+                                <li class="flex items-start gap-2"><span class="text-brand-yellow mt-1">●</span> <span><strong class="text-brand-black">Паста болоньезе</strong></span></li>
+                            </ul>
+                        </div>
+
+                         <!-- Garnish & Others -->
+                         <div>
+                            <h3 class="flex items-center gap-2 font-bold text-brand-green uppercase text-sm tracking-wider mb-4 border-b border-gray-100 pb-2">
+                                <i data-lucide="wheat" class="w-5 h-5"></i> Гарниры, Напитки, Десерт
+                            </h3>
+                            <div class="grid grid-cols-1 gap-2 text-sm text-gray-600">
+                                <p><strong class="text-brand-black">Гарниры:</strong> Рис, Макароны, Картофельное пюре, Греча</p>
+                                <p><strong class="text-brand-black">Напитки:</strong> Чай пакетированный, Компот</p>
+                                <p><strong class="text-brand-black">Десерт:</strong> Блины (сгущенка, сметана)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price List (Clean Table Style) -->
+                <div class="bg-gray-50 border-t border-gray-200 p-6 md:p-10">
+                    <h3 class="text-xl font-bold text-brand-black mb-6 flex items-center gap-2">
+                        <i data-lucide="wallet" class="w-5 h-5 text-brand-green"></i> Стоимость обеда
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                        <!-- Full Meal -->
+                        <div class="flex justify-between items-center p-4 bg-white rounded-xl border border-brand-green shadow-sm col-span-1 md:col-span-2">
+                            <span class="font-bold text-brand-black flex items-center gap-2">
+                                <span class="bg-brand-green text-white text-[10px] px-2 py-0.5 rounded uppercase">Выгодно</span>
+                                Салат + Суп + Горячее
+                            </span>
+                            <span class="text-xl font-extrabold text-brand-green">370 ₽</span>
+                        </div>
+
+                        <!-- Combos -->
+                        <div class="space-y-3 pt-2">
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600 font-medium">Салат + Суп</span>
+                                <span class="font-bold text-brand-black">270 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600 font-medium">Салат + Горячее</span>
+                                <span class="font-bold text-brand-black">320 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600 font-medium">Суп + Горячее</span>
+                                <span class="font-bold text-brand-black">320 ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Single Items -->
+                        <div class="space-y-3 pt-2">
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600">Только Горячее</span>
+                                <span class="font-bold text-gray-800">270 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600">Только Суп</span>
+                                <span class="font-bold text-gray-800">170 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-gray-200 pb-2 border-dashed">
+                                <span class="text-gray-600">Только Салат</span>
+                                <span class="font-bold text-gray-800">150 ₽</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-8">
+                 <p class="text-gray-500 text-sm mb-4">Бизнес-ланчи подаются по будням с 12:00 до 16:00</p>
+                 <a href="tel:+73514692211" class="inline-flex items-center gap-2 text-brand-green font-bold hover:underline">
+                     <i data-lucide="phone" class="w-4 h-4"></i> Заказать заранее
+                 </a>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+  </body>
+</html>

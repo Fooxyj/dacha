@@ -1,0 +1,387 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Modern Split Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8 md:pt-16 md:pb-12">
+        <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-16">
+            
+            <!-- LEFT: Typography & CTA -->
+            <div class="flex-1 text-center md:text-left space-y-6 md:pr-8">
+                <!-- Status Badge -->
+                <div id="status-badge" class="inline-flex items-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-full text-sm font-bold animate-[fadeIn_0.5s]">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
+                    </span>
+                    Загрузка...
+                </div>
+                
+                <!-- Main Headline -->
+                <h1 class="text-4xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight text-brand-black leading-[1.1]">
+                    Дача<br> 
+                    <span class="text-brand-black font-medium relative inline-block">
+                        для Друзей
+                        <!-- Underline decoration -->
+                        <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-yellow -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                            <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" />
+                        </svg>
+                    </span>
+                </h1>
+                
+                <p class="text-lg text-gray-500 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
+                    Настоящий шашлык на углях, домашние пельмени и горячая выпечка. 
+                    Доставим по Снежинску за <span class="text-brand-black font-bold">~40 минут</span>.
+                </p>
+                
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                    <!-- CHANGED: Now opens Reservation Modal -->
+                    <button onclick="openModal('reservation-modal')" class="bg-brand-yellow hover:bg-[#F0D500] text-brand-black px-8 py-4 rounded-2xl font-bold text-lg shadow-glow transition-transform active:scale-95 flex items-center justify-center gap-2">
+                        <span>Забронировать столик</span>
+                        <i data-lucide="calendar-days" class="w-5 h-5"></i>
+                    </button>
+                     <!-- Business Lunch Button (Django URL) -->
+                    <a href="{% url 'lunch' %}" class="bg-white border-2 border-brand-gray hover:border-brand-green text-brand-black px-8 py-4 rounded-2xl font-bold text-lg transition-colors flex items-center justify-center gap-2 group">
+                        <i data-lucide="utensils" class="w-5 h-5 text-gray-400 group-hover:text-brand-green transition-colors"></i>
+                        <span>Бизнес-ланч</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: Floating Visual -->
+            <div class="flex-1 w-full relative flex justify-center md:justify-end">
+                <!-- Background Blob -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-brand-yellow/20 to-brand-green/10 rounded-full blur-3xl -z-10"></div>
+                
+                <!-- Main Image (Floating) -->
+                <div class="relative w-full max-w-[500px] aspect-square">
+                     <img 
+                        src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                        alt="Delicious Ribs" 
+                        class="w-full h-full object-cover rounded-[40px] shadow-2xl animate-float rotate-2"
+                    >
+                    
+                    <!-- Floating Card 1 -->
+                    <div class="absolute top-8 -left-4 md:-left-8 bg-white p-3 pr-5 rounded-2xl shadow-float animate-[float_5s_ease-in-out_1s_infinite] flex items-center gap-3">
+                        <div class="bg-orange-100 p-2 rounded-xl text-orange-500">
+                            <i data-lucide="flame" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Хит продаж</p>
+                            <p class="font-bold text-sm">Свиные ребрышки</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Card 2 -->
+                    <div class="absolute -bottom-6 right-4 md:-right-4 bg-white p-3 pr-5 rounded-2xl shadow-float animate-[float_7s_ease-in-out_0.5s_infinite] flex items-center gap-3">
+                        <div class="bg-green-100 p-2 rounded-xl text-brand-green">
+                            <i data-lucide="bike" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Доставка</p>
+                            <p class="font-bold text-sm">Бесплатно</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sticky Categories (App-like Navigation) -->
+    <div id="sticky-nav" class="sticky top-[72px] z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 py-4 mt-4 transition-shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex gap-3 overflow-x-auto no-scrollbar snap-x" id="categories-container">
+                <button class="snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm bg-brand-black text-white transition-transform active:scale-95" data-filter="all">
+                    Все
+                </button>
+                {% for code, label in categories %}
+                <button class="snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm bg-brand-gray text-gray-600 hover:bg-gray-200 transition-all active:scale-95 whitespace-nowrap" data-filter="{{ code }}">
+                    {{ label }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Grid -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8" id="menu-grid">
+          
+          {% for item in menu_items %}
+          <div class="menu-item flex flex-col h-full group" data-category="{{ item.category }}">
+            <!-- Card Image -->
+            <div class="relative bg-brand-gray rounded-[24px] overflow-hidden aspect-[4/3] mb-4 cursor-pointer">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="{{ item.title }}">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center text-gray-400">Нет фото</div>
+                {% endif %}
+                
+                {% if item.is_popular %}
+                   <!-- Badge -->
+                   <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center gap-1">
+                       <span class="text-orange-500">🔥</span> Хит
+                   </div>
+                {% endif %}
+                
+                <!-- Quick Add Overlay (Desktop) -->
+                <!-- FIXED: Added explicit w-10 h-10, flex centering, icon styling -->
+                <button onclick="addToCart('{{ item.title }}', {{ item.price|floatformat:0 }})" class="absolute bottom-3 right-3 bg-white w-10 h-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 hidden md:flex items-center justify-center hover:bg-brand-yellow text-brand-black">
+                    <i data-lucide="plus" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Card Content -->
+            <div class="flex flex-col flex-grow">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-2xl font-bold text-brand-black group-hover:text-brand-green transition-colors">{{ item.price }} ₽</span>
+                </div>
+                <h3 class="text-lg font-bold leading-tight mb-2 text-brand-black">{{ item.title }}</h3>
+                <p class="text-sm text-gray-500 line-clamp-2 mb-4">{{ item.description }}</p>
+                
+                <!-- Mobile Add Button (Visible always on mobile) -->
+                <button onclick="addToCart('{{ item.title }}', {{ item.price|floatformat:0 }})" class="mt-auto w-full md:hidden bg-brand-gray py-3 rounded-xl font-bold text-sm text-brand-black active:scale-95 transition-transform">
+                    Добавить
+                </button>
+            </div>
+          </div>
+          {% empty %}
+             <div class="col-span-full py-20 text-center">
+                 <p class="text-gray-500 text-lg">Меню загружается...</p>
+             </div>
+          {% endfor %}
+        
+        </div>
+    </section>
+
+    <!-- BANQUET MENU SECTION -->
+    <section class="py-16 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-black mb-4">Банкетное меню</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+                        Планируете торжество? Дача — идеальное место для тихих дружеских встреч, свадеб, юбилеев или корпоративов.
+                    </p>
+                </div>
+
+                <!-- INFO BLOCK: HALLS & SERVICES -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <!-- Block 1: Capacity -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-brand-yellow/20 text-brand-black rounded-2xl flex items-center justify-center mb-4">
+                            <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-3">4 Уютных зала</h3>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center gap-2"><span>●</span> 2 малых зала (до 25 чел)</li>
+                            <li class="flex items-center gap-2"><span>●</span> Средний зал (до 45 чел)</li>
+                            <li class="flex items-center gap-2"><span>●</span> Большой зал (до 85 чел)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Block 2: Organization -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4">
+                            <i data-lucide="music" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-3">Праздник под ключ</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            Администрация кафе поможет подобрать профессионального ведущего и диджея для вашего мероприятия.
+                        </p>
+                    </div>
+
+                    <!-- Block 3: Atmosphere -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-red-100 text-red-500 rounded-2xl flex items-center justify-center mb-4">
+                            <i data-lucide="heart" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-3">Душевно и Вкусно</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            В кафе «Дача» большие и маленькие компании не мешают друг другу. Вас всегда встретят с улыбкой и очень вкусно накормят!
+                        </p>
+                    </div>
+                </div>
+                <!-- END INFO BLOCK -->
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    
+                    <!-- Adult Menu Column -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 bg-brand-black text-white rounded-full flex items-center justify-center">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-black">Основное меню</h3>
+                        </div>
+                        
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all cursor-pointer group flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-brand-black group-hover:text-brand-green transition-colors">Банкет "Стандарт"</h4>
+                                    <p class="text-sm text-gray-400">Салаты, горячее, закуски</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="block font-bold text-xl text-brand-black">1 900 ₽</span>
+                                <span class="text-xs text-gray-400">/ чел</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all cursor-pointer group flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center">
+                                <i data-lucide="file-text" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-brand-black group-hover:text-brand-green transition-colors">Банкет "Комфорт"</h4>
+                                <p class="text-sm text-gray-400">Расширенный выбор блюд</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-xl text-brand-black">2 200 ₽</span>
+                            <span class="text-xs text-gray-400">/ чел</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all cursor-pointer group flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-yellow text-brand-black rounded-xl flex items-center justify-center shadow-glow">
+                                <i data-lucide="star" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-brand-black group-hover:text-brand-green transition-colors">Банкет "Премиум"</h4>
+                                <p class="text-sm text-gray-400">Деликатесы и авторская подача</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-xl text-brand-black">2 500 ₽</span>
+                            <span class="text-xs text-gray-400">/ чел</span>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Kids Menu Column -->
+                    <div class="space-y-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 bg-brand-green text-white rounded-full flex items-center justify-center">
+                            <i data-lucide="baby" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-black">Детское меню</h3>
+                    </div>
+                    
+                    <!-- Card Kids 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all cursor-pointer group flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+                                <i data-lucide="smile" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-brand-black group-hover:text-brand-green transition-colors">Детский "Лайт"</h4>
+                                <p class="text-sm text-gray-400">Любимые детские блюда</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-xl text-brand-black">1 100 ₽</span>
+                            <span class="text-xs text-gray-400">/ чел</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Kids 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all cursor-pointer group flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+                                <i data-lucide="party-popper" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-brand-black group-hover:text-brand-green transition-colors">Детский "Праздник"</h4>
+                                <p class="text-sm text-gray-400">С десертом и напитками</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-xl text-brand-black">1 400 ₽</span>
+                            <span class="text-xs text-gray-400">/ чел</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Call to action block -->
+                    <div class="bg-brand-gray/50 rounded-2xl p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-center h-[100px] mt-4">
+                        <p class="text-sm font-bold text-gray-500 mb-2">Остались вопросы по банкету?</p>
+                        <a href="tel:+73514692211" class="text-brand-green font-bold hover:underline">Позвонить менеджеру</a>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Filter Script -->
+    <script>
+        // Sticky Header Shadow Logic
+        const nav = document.getElementById('sticky-nav');
+        window.addEventListener('scroll', () => {
+             if (nav) {
+                if (window.scrollY > 300) {
+                    nav.classList.add('shadow-sm');
+                } else {
+                    nav.classList.remove('shadow-sm');
+                }
+            }
+        });
+
+        // Category Filter Logic
+        const filterBtns = document.querySelectorAll('[data-filter]');
+        const items = document.querySelectorAll('.menu-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active classes
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-brand-black', 'text-white');
+                    b.classList.add('bg-brand-gray', 'text-gray-600');
+                });
+                // Add active class
+                btn.classList.remove('bg-brand-gray', 'text-gray-600');
+                btn.classList.add('bg-brand-black', 'text-white');
+
+                const filter = btn.getAttribute('data-filter');
+                items.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.classList.remove('hidden');
+                        item.classList.add('flex');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('flex');
+                    }
+                });
+            });
+        });
+
+        // Status Badge Logic
+        function updateStatus() {
+            const now = new Date();
+            const hour = now.getHours();
+            const badge = document.getElementById('status-badge');
+            if(!badge) return;
+
+            // Open from 11:00 to 23:00 (11 to 22:59)
+            if (hour >= 11 && hour < 23) {
+                 badge.className = "inline-flex items-center gap-2 bg-green-50 text-brand-green px-4 py-2 rounded-full text-sm font-bold animate-[fadeIn_0.5s]";
+                 badge.innerHTML = `<span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-green"></span></span>Открыто сейчас`;
+            } else {
+                 badge.className = "inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold animate-[fadeIn_0.5s]";
+                 badge.innerHTML = `<span class="relative flex h-2.5 w-2.5"><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span></span>Закрыто сейчас`;
+            }
+        }
+        updateStatus();
+        setInterval(updateStatus, 60000); // Check every minute
+
+        // Init icons
+        lucide.createIcons();
+    </script>
+{% endblock %}

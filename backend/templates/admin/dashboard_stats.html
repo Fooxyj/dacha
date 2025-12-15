@@ -1,0 +1,143 @@
+<div class="module custom-dashboard" style="margin-bottom: 20px;">
+    <h2>📊 Сводка за сегодня ({% now "d.m.Y" %})</h2>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <!-- Traffic -->
+        <div
+            style="flex: 1; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;">
+            <h3 style="margin-top: 0; color: #666; font-size: 13px; text-transform: uppercase;">Трафик</h3>
+            <div style="font-size: 24px; font-weight: bold; color: #333;">
+                {{ unique_visitors }} <span
+                    style="font-size: 14px; font-weight: normal; color: #888;">посетителей</span>
+            </div>
+            <div style="font-size: 13px; color: #888; margin-top: 5px;">
+                Просмотров: {{ total_views }}
+            </div>
+        </div>
+
+        <!-- Revenue Today -->
+        <div
+            style="flex: 1; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;">
+            <h3 style="margin-top: 0; color: #666; font-size: 13px; text-transform: uppercase;">Выручка за сегодня</h3>
+            <div style="font-size: 24px; font-weight: bold; color: #28a745;">
+                {{ revenue_today|default:"0" }} ₽
+            </div>
+            <div style="font-size: 13px; color: #888; margin-top: 5px;">
+                Заказов: {{ orders_count_today }}
+            </div>
+        </div>
+
+        <!-- Total Revenue -->
+        <div
+            style="flex: 1; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;">
+            <h3 style="margin-top: 0; color: #666; font-size: 13px; text-transform: uppercase;">Выручка всего</h3>
+            <div style="font-size: 24px; font-weight: bold; color: #333;">
+                {{ revenue_total|default:"0" }} ₽
+            </div>
+        </div>
+
+        <!-- Reservations -->
+        <div
+            style="flex: 1; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;">
+            <h3 style="margin-top: 0; color: #666; font-size: 13px; text-transform: uppercase;">Брони столов</h3>
+            <div style="font-size: 24px; font-weight: bold; color: #007bff;">
+                {{ reservations_today }}
+            </div>
+            <div style="font-size: 13px; color: #888; margin-top: 5px;">
+                на сегодня
+            </div>
+        </div>
+    </div>
+
+    <!-- New Orders Table -->
+    <div
+        style="margin-top: 20px; background: #222; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #444; color: #fff;">
+        <h3
+            style="margin-top: 0; margin-bottom: 15px; color: #fff; font-size: 16px; border-bottom: 1px solid #444; padding-bottom: 10px;">
+            🍕 Новые заказы (Требуют обработки)
+        </h3>
+
+        {% if latest_new_orders %}
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+                <tr style="border-bottom: 2px solid #555; text-align: left;">
+                    <th style="padding: 10px; color: #aaa;">№ Заказа</th>
+                    <th style="padding: 10px; color: #aaa;">Время</th>
+                    <th style="padding: 10px; color: #aaa;">Клиент</th>
+                    <th style="padding: 10px; color: #aaa;">Сумма</th>
+                    <th style="padding: 10px; color: #aaa;">Оплата</th>
+                    <th style="padding: 10px; color: #aaa;">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in latest_new_orders %}
+                <tr style="border-bottom: 1px solid #333; background-color: #2a2a2a;">
+                    <td style="padding: 10px; font-weight: bold; color: #fff;">#{{ order.id }}</td>
+                    <td style="padding: 10px; color: #ddd;">{{ order.created_at|date:"d.m H:i" }}</td>
+                    <td style="padding: 10px;">
+                        <div style="color: #fff;">{{ order.name }}</div>
+                        <div style="font-size: 11px; color: #aaa;">{{ order.phone }}</div>
+                    </td>
+                    <td style="padding: 10px; font-weight: bold; color: #4ade80;">{{ order.total_price }} ₽</td>
+                    <td style="padding: 10px; color: #ddd;">
+                        {% if order.payment_method == 'online' %}💳 Онлайн{% elif order.payment_method == 'transfer'
+                        %}📱 Перевод{% else %}💵 Наличные{% endif %}
+                    </td>
+                    <td style="padding: 10px;">
+                        <a href="{% url 'admin:api_order_change' order.id %}"
+                            style="display: inline-block; padding: 6px 12px; background: #007bff; border-radius: 4px; text-decoration: none; color: #fff; font-size: 12px; font-weight: bold;">
+                            Обработать
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: #aaa; padding: 10px;">Нет новых необработанных заказов.</p>
+        {% endif %}
+    </div>
+
+    <!-- Upcoming Reservations Table -->
+    <div
+        style="margin-top: 20px; background: #222; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #444; color: #fff;">
+        <h3
+            style="margin-top: 0; margin-bottom: 15px; color: #fff; font-size: 16px; border-bottom: 1px solid #444; padding-bottom: 10px;">
+            📅 Ближайшие бронирования (10 шт.)</h3>
+
+        {% if upcoming_reservations %}
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+                <tr style="border-bottom: 2px solid #555; text-align: left;">
+                    <th style="padding: 10px; color: #aaa;">Дата</th>
+                    <th style="padding: 10px; color: #aaa;">Время</th>
+                    <th style="padding: 10px; color: #aaa;">Имя</th>
+                    <th style="padding: 10px; color: #aaa;">Гостей</th>
+                    <th style="padding: 10px; color: #aaa;">Телефон</th>
+                    <th style="padding: 10px; color: #aaa;">Комментарий</th>
+                    <th style="padding: 10px; color: #aaa;">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in upcoming_reservations %}
+                <tr style="border-bottom: 1px solid #333; background-color: #2a2a2a;">
+                    <td style="padding: 10px; font-weight: bold; color: #fff;">{{ res.date|date:"d.m.Y" }}</td>
+                    <td style="padding: 10px; color: #ddd;">{{ res.time|time:"H:i" }}</td>
+                    <td style="padding: 10px; color: #fff;">{{ res.name }}</td>
+                    <td style="padding: 10px; color: #ddd;">{{ res.guests }} чел.</td>
+                    <td style="padding: 10px; color: #ddd;">{{ res.phone }}</td>
+                    <td style="padding: 10px; color: #888; font-style: italic;">{{ res.comment|truncatechars:30 }}</td>
+                    <td style="padding: 10px;">
+                        <a href="{% url 'admin:api_reservation_change' res.id %}"
+                            style="display: inline-block; padding: 5px 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; font-size: 12px;">
+                            ✏️ Подробнее
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: #aaa; padding: 10px;">На ближайшее время бронирований нет.</p>
+        {% endif %}
+    </div>
+</div>

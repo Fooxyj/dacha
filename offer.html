@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Публичная оферта | Дача</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+            colors: { brand: { black: '#21201F', yellow: '#FCE000', gray: '#F5F4F2', green: '#2F5D48' } }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="font-sans antialiased bg-gray-50">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100 h-[72px] flex items-center">
+      <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+           <span class="font-extrabold text-2xl tracking-tight text-brand-black">Дача</span>
+        </a>
+        <a href="/" class="text-sm font-bold text-brand-green flex items-center gap-2 hover:opacity-70">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> На главную
+        </a>
+      </div>
+    </nav>
+    <div class="h-[72px]"></div>
+
+    <main class="max-w-4xl mx-auto px-4 py-16">
+        <h1 class="text-3xl font-extrabold text-brand-black mb-8">Публичная оферта</h1>
+        <div class="prose prose-lg max-w-none bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100">
+            <p class="text-gray-500">Вставьте текст публичной оферты здесь...</p>
+        </div>
+    </main>
+
+    <script>lucide.createIcons();</script>
+  </body>
+</html>
