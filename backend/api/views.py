@@ -250,4 +250,20 @@ def check_new_orders(request):
 
 def home_view(request):
     """Main page view"""
-    return HttpResponse("Welcome to Dacha API Backend!")
+    from django.shortcuts import render
+    from .models import Category, Product
+    from .serializers import CategorySerializer, ProductSerializer
+
+    # Get menu data for the template
+    categories = Category.objects.all()
+    products = Product.objects.all()
+
+    # Convert to format expected by template
+    category_choices = [(cat.code, cat.name) for cat in categories]
+    menu_items = products
+
+    context = {
+        'categories': category_choices,
+        'menu_items': menu_items
+    }
+    return render(request, 'index.html', context)
